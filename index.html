@@ -1,112 +1,422 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aplicativo em Manutenção</title>
 
-<meta charset="UTF-8">
+  <style>
+    :root {
+      --red: #c40000;
+      --dark: #202124;
+      --gray: #6f6f6f;
+      --light-gray: #f4f5f7;
+      --white: #ffffff;
+    }
 
-<title>Manutenção Programada</title>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-<style>
+    body {
+      background: linear-gradient(135deg, #f7f7f7, #e9eaec);
+      min-height: 100vh;
+      color: var(--dark);
+    }
 
-body{
+    .topbar {
+      height: 70px;
+      background: linear-gradient(90deg, #1f1f1f, #3a3a3a);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
 
-background:#f4f4f4;
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 22px;
+      font-weight: 600;
+    }
 
-font-family:Arial;
+    .menu {
+      font-size: 32px;
+    }
 
-display:flex;
+    .sap-logo {
+      background: #0faaff;
+      color: white;
+      font-weight: bold;
+      padding: 6px 12px;
+      font-size: 26px;
+      border-radius: 2px;
+    }
 
-justify-content:center;
+    .user {
+      font-size: 18px;
+    }
 
-align-items:center;
+    .page {
+      padding: 55px 20px 90px;
+      display: flex;
+      justify-content: center;
+    }
 
-height:100vh;
+    .card {
+      width: 100%;
+      max-width: 830px;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 55px 70px 45px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
 
-margin:0;
+    .icon {
+      font-size: 82px;
+      margin-bottom: 20px;
+      color: var(--red);
+    }
 
-}
+    h1 {
+      font-size: 52px;
+      line-height: 1.05;
+      margin-bottom: 15px;
+      font-weight: 800;
+    }
 
-.card{
+    h1 span {
+      color: var(--red);
+      display: block;
+    }
 
-width:700px;
+    .underline {
+      width: 85px;
+      height: 4px;
+      background: var(--red);
+      margin: 20px auto 35px;
+      border-radius: 4px;
+    }
 
-background:white;
+    .description {
+      font-size: 22px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 42px;
+    }
 
-padding:40px;
+    .return-label {
+      font-size: 18px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
 
-border-radius:10px;
+    .return-date {
+      font-size: 34px;
+      color: var(--red);
+      font-weight: bold;
+      margin-bottom: 32px;
+    }
 
-box-shadow:0px 5px 20px rgba(0,0,0,.2);
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 38px;
+    }
 
-text-align:center;
+    .time-box {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 22px 10px;
+      background: #fff;
+    }
 
-}
+    .time-box strong {
+      display: block;
+      font-size: 38px;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
 
-h1{
+    .time-box span {
+      color: #444;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
 
-color:#d35400;
+    .info-box {
+      background: #f2f2f2;
+      border-radius: 10px;
+      padding: 24px 28px;
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      text-align: left;
+      margin-bottom: 38px;
+    }
 
-}
+    .info-icon {
+      font-size: 34px;
+      color: var(--dark);
+    }
 
-p{
+    .info-box strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
 
-font-size:18px;
+    .info-box p {
+      font-size: 18px;
+      line-height: 1.5;
+    }
 
-}
+    .help {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      text-align: left;
+      margin-bottom: 35px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 30px;
+    }
 
-.data{
+    .help-left {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
 
-font-size:22px;
+    .help-icon {
+      font-size: 36px;
+      color: var(--red);
+    }
 
-font-weight:bold;
+    .help strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
 
-color:#0b5ed7;
+    .help p {
+      font-size: 17px;
+    }
 
-}
+    .contacts {
+      font-size: 17px;
+      line-height: 1.8;
+      border-left: 1px solid #ddd;
+      padding-left: 30px;
+    }
 
-</style>
+    .btn {
+      background: linear-gradient(90deg, #c40000, #e00000);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 18px 55px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(196, 0, 0, 0.25);
+    }
 
+    .btn:hover {
+      filter: brightness(0.95);
+    }
+
+    footer {
+      height: 64px;
+      background: linear-gradient(90deg, #1f1f1f, #333);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 35px;
+      font-size: 15px;
+      border-bottom: 5px solid var(--red);
+    }
+
+    .footer-left span {
+      margin-right: 14px;
+    }
+
+    .footer-left span::after {
+      content: "•";
+      color: var(--red);
+      margin-left: 14px;
+    }
+
+    .footer-left span:last-child::after {
+      content: "";
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 35px 22px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .description {
+        font-size: 18px;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .help {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .contacts {
+        border-left: none;
+        padding-left: 0;
+      }
+
+      footer {
+        flex-direction: column;
+        height: auto;
+        padding: 18px;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="menu">☰</div>
+      <div class="sap-logo">SAP</div>
+      <div>Home⌄</div>
+    </div>
+    <div class="user">👤 Usuário</div>
+  </header>
 
-<h1>⚠ Aplicativo em manutenção</h1>
+  <main class="page">
+    <section class="card">
 
-<p>
+      <div class="icon">🛠️</div>
 
-Estamos realizando uma atualização programada.
+      <h1>
+        Aplicativo em
+        <span>manutenção</span>
+      </h1>
 
-</p>
+      <div class="underline"></div>
 
-<p>
+      <p class="description">
+        Estamos realizando uma atualização programada para melhor atendê-lo.
+        Durante este período, o aplicativo de apontamentos estará temporariamente indisponível.
+      </p>
 
-Durante esse período os apontamentos estarão indisponíveis.
+      <div class="return-label">Previsão de retorno</div>
+      <div class="return-date" id="returnDate">01/08/2026 às 15:30</div>
 
-</p>
+      <div class="countdown">
+        <div class="time-box">
+          <strong id="days">00</strong>
+          <span>Dias</span>
+        </div>
+        <div class="time-box">
+          <strong id="hours">00</strong>
+          <span>Horas</span>
+        </div>
+        <div class="time-box">
+          <strong id="minutes">00</strong>
+          <span>Minutos</span>
+        </div>
+        <div class="time-box">
+          <strong id="seconds">00</strong>
+          <span>Segundos</span>
+        </div>
+      </div>
 
-<p class="data">
+      <div class="info-box">
+        <div class="info-icon">ⓘ</div>
+        <div>
+          <strong>Importante</strong>
+          <p>Durante a manutenção, o sistema pode apresentar instabilidades ou ficar totalmente indisponível.</p>
+        </div>
+      </div>
 
-Retorno previsto
+      <div class="help">
+        <div class="help-left">
+          <div class="help-icon">🎧</div>
+          <div>
+            <strong>Precisa de ajuda?</strong>
+            <p>Entre em contato com a equipe de TI.</p>
+          </div>
+        </div>
 
-<br><br>
+        <div class="contacts">
+          ☎ (27) 3334-9900<br>
+          ✉ ti@brametal.com.br
+        </div>
+      </div>
 
-01/08/2026 às 15:30
+      <button class="btn" onclick="location.reload()">↻ Tentar novamente</button>
 
-</p>
+    </section>
+  </main>
 
-<hr>
+  <footer>
+    <div class="footer-left">
+      <span>Segurança</span>
+      <span>Qualidade</span>
+      <span>Compromisso</span>
+      <span>Inovação</span>
+    </div>
+    <div>© 2026. Todos os direitos reservados.</div>
+  </footer>
 
-<p>
+  <script>
+    // Altere aqui a data/hora prevista de retorno
+    const targetDate = new Date("2026-08-01T15:30:00").getTime();
 
-Em caso de dúvidas, entre em contato com a equipe de TI.
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
 
-</p>
+      if (distance <= 0) {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
+        return;
+      }
 
-</div>
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      document.getElementById("days").innerText = String(days).padStart(2, "0");
+      document.getElementById("hours").innerText = String(hours).padStart(2, "0");
+      document.getElementById("minutes").innerText = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").innerText = String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 
 </body>
-
 </html>
